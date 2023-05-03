@@ -29,15 +29,13 @@ class Replay:
         replay_data['highest_combo'] = self.decode_data('h')
         replay_data['perfect_combo'] = self.decode_data('b')
         replay_data['mods_used'] = self.decode_data('i')
-        replay_data['life_bar_graph'] = self.decode_string()
-        replay_data['time_stamp'] = self.decode_data('l')
-        replay_data['byte_length'] = self.decode_data('i')
-        replay_data['byte_array'] = self.decode_data('b')
-        replay_data['online_score_id'] = self.decode_data('l')
-        replay_data['target_practice_mod'] = self.decode_data('d')
-        print(self.data[self.offset:self.offset+1500])
-        for x, y in enumerate(self.data[self.offset:self.offset+500]):
-            print(f'{x}: {y}')
+        replay_data['life_bar_graph'] = self.decode_string() # the string will end with a comma
+        #replay_data['time_stamp'] = self.decode_data('l')
+        #replay_data['byte_length'] = self.decode_data('i')
+        #replay_data['byte_array'] = self.decode_data('b')
+        #replay_data['online_score_id'] = self.decode_data('l')
+        #replay_data['target_practice_mod'] = self.decode_data('d')
+        print(self.data[self.offset:self.offset+500])
 
         return replay_data
     
@@ -67,14 +65,18 @@ class Replay:
         iteration = 0
         
         while True:
-            chunk = value & 0b01111111          # ignore the most significant bit
+            chunk = value & 0b01111111         # ignore the most significant bit
             output += chunk << iteration * 7    # insert the chunk into the return value
             if value < 0b10000000:              # exit loop if the most significant bit is zero
                 break
             iteration += 1                      # constant to multiple by 7
-            value = value >> 8                  # shift to next byte
+            self.offset += 1                    # shift to next byte
+            value = self.data[self.offset]
 
         return output
     
     def decode_lmza() -> str:
+        pass
+
+    def decode_mod() -> str:
         pass
