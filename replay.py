@@ -35,6 +35,9 @@ class Replay:
         replay_data['byte_array'] = self.decode_data('b')
         replay_data['online_score_id'] = self.decode_data('l')
         replay_data['target_practice_mod'] = self.decode_data('d')
+        print(self.data[self.offset:self.offset+1500])
+        for x, y in enumerate(self.data[self.offset:self.offset+500]):
+            print(f'{x}: {y}')
 
         return replay_data
     
@@ -73,14 +76,5 @@ class Replay:
 
         return output
     
-def run() -> None:
-    path = 'replay/chmpchmp - supercell - Hero [Villain] (2023-04-19) Osu.osr'
-    path = 'replay/chmpchmp - Suzuyu - Euphorium [The Dream Of White Star.] (2022-10-28) Osu.osr'
-    replay = Replay(path)
-    replay_data = replay.decode_replay()
-
-    for key, value in replay_data.items():
-        print(f'>> {key}: {value}')
-
-if __name__ == '__main__':
-    run()
+    def decode_lmza() -> str:
+        pass
